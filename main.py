@@ -29,7 +29,6 @@ class Login(BaseModel):
 def login(item: Login = Body(...)):
     if item.type == 'mobile':
         print('手机号登录', f"{item.mobile}--{item.code}")
-
     else:
         pass
     return {
