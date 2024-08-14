@@ -45,8 +45,6 @@ def send_code():
     return {"code": "123456"}
 
 
-
-
 @app.get('/user/info')
 def user_info():
     return {
@@ -57,4 +55,45 @@ def user_info():
             "roles": ["admin"]
         },
         "msg": "获取用户信息成功"
+    }
+
+
+@app.get('/user/menus')
+def user_menu():
+    return {
+        "code": 200,
+        "data": [
+            {
+                "id": 1,
+                "pid": None,
+                "name": "Home",
+                "component": "RouteView",
+                "path": "/",
+                "redirect": "/home",
+                "title": '首页',
+                'icon': 'AccountBookFilled'
+
+            },
+            {
+                "id": 2,
+                "pid": 1,
+                "name": "Home",
+                "component": "Home",
+                "path": "/home",
+                "title": 'home',
+                'icon': 'AlibabaOutlined'
+
+            },
+            {
+                "id": 3,
+                "pid": 1,
+                "name": "Workspace",
+                "component": "Workspace",
+                "path": "/workspace",
+                "title": 'workspace',
+                'icon': 'AlipayOutlined'
+
+            }
+        ],
+        "msg": "获取菜单成功"
     }
