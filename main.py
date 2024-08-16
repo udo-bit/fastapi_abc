@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Body
+from fastapi import FastAPI, HTTPException, Body, Query
 from pydantic import BaseModel, Field
 
 app = FastAPI()
@@ -85,7 +85,6 @@ def user_menu():
 
             },
 
-
             {
                 "id": 3,
                 "pid": 1,
@@ -98,4 +97,35 @@ def user_menu():
             }
         ],
         "msg": "获取菜单成功"
+    }
+
+
+@app.get("/menu")
+def menu(page:int=Query(default=1, description='页码'), pageSize:int=Query(default=10, description='每页数量')):
+    def get_fake_date(no: int):
+        return {
+            "id": no,
+            "pid": None,
+            "path": '/dashboard',
+            "name": 'Dashboard',
+            "component": 'RouteView',
+            "redirect": '/dashboard/analysis',
+            "title": f'仪表板{no}',
+            "icon": 'DashboardOutlined'
+        }
+
+    temp_data = []
+    for i in range(100):
+        temp_data.append(get_fake_date(i))
+    start = (page - 1) * pageSize
+    end = start + pageSize
+    total_page = len(temp_data) // pageSize
+    print({"total": total_page})
+    print(100//20)
+
+    return {
+        "code": 200,
+        "data": {"data": temp_data[start:end+1], "total": total_page},
+        "msg": "获取数据成功",
+
     }
