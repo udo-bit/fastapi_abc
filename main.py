@@ -1,5 +1,8 @@
-from fastapi import FastAPI, HTTPException, Body, Query
+from typing import Annotated
+
+from fastapi import FastAPI, HTTPException, Body, Query, Depends
 from pydantic import BaseModel, Field
+from fastapi.security import OAuth2PasswordBearer
 
 app = FastAPI()
 
@@ -101,7 +104,7 @@ def user_menu():
 
 
 @app.get("/menu")
-def menu(page:int=Query(default=1, description='页码'), pageSize:int=Query(default=10, description='每页数量')):
+def menu(page: int = Query(default=1, description='页码'), pageSize: int = Query(default=10, description='每页数量')):
     def get_fake_date(no: int):
         return {
             "id": no,
@@ -121,11 +124,11 @@ def menu(page:int=Query(default=1, description='页码'), pageSize:int=Query(def
     end = start + pageSize
     total_page = len(temp_data) // pageSize
     print({"total": total_page})
-    print(100//20)
+    print(100 // 20)
 
     return {
         "code": 200,
-        "data": {"data": temp_data[start:end+1], "total": total_page},
+        "data": {"data": temp_data[start:end + 1], "total": total_page},
         "msg": "获取数据成功",
 
     }
